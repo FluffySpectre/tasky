@@ -1,0 +1,29 @@
+.new-list {
+    background-color: #ddd;
+    width: 20rem;
+    padding: 1rem;
+    border-radius: 0.25rem;
+}
+
+.new-list-buttons {
+    display: flex;
+    flex-direction: row;
+    position: relative;
+}
+
+textarea {
+    width: calc(100% - 1rem - 2px);
+    resize: none;
+    padding: 0.5rem;
+    border: 1px solid #333;
+    min-height: 1rem;
+}
+
+.abort-creation {
+    cursor: pointer;
+    width: 2rem;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
