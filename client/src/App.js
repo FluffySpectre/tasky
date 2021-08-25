@@ -2,6 +2,7 @@ import React from 'react';
 import './App.css';
 import Board from './board/Board';
 import io from 'socket.io-client';
+import HeaderBar from './common/HeaderBar';
 
 const socket = io.connect('http://192.168.1.5:3001', { transports: ['websocket', 'polling', 'flashsocket'] });
 
@@ -13,7 +14,10 @@ class App extends React.Component {
 
     return (
       <div className="App">
-          <Board id={boardId} socket={socket} />
+          <HeaderBar></HeaderBar>
+          <div className="board-container">
+            <Board id={boardId} socket={socket} />
+          </div>
       </div>
     );
   }

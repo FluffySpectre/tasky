@@ -4,11 +4,12 @@ import './Board.css';
 import Card from './Card';
 import NewCard from './NewCard';
 import NewList from './NewList';
+import { move, reorder } from './reorder';
 
 class Board extends React.Component {
     constructor(props) {
         super(props);
-        this.state = { 
+        this.state = {
             boardId: props.id || null,
             lists: [],
             newCardListId: null,
@@ -26,7 +27,7 @@ class Board extends React.Component {
             newCardTitle: '',
             newList: false,
             newListTitle: '',
-            }
+        }
         );
 
         // subscribe for board updates
@@ -102,22 +103,51 @@ class Board extends React.Component {
     }
 
     dragEnd = (result) => {
-        console.log('Drag end', result);
-
         // dropped outside the list
         if (!result.destination) {
             console.log('Dropped outside of list');
             return;
         }
-    
+
         if (result.destination.droppableId === result.source.droppableId
             && result.destination.index === result.source.index) {
             console.log('No change');
             return;
         }
-    
+
+        const sourceList = { ...this.state.lists.find(l => l.id === result.source.droppableId) };
+        const destList = { ...this.state.lists.find(l => l.id === result.destination.droppableId) };
+        const destListIndex = this.state.lists.findIndex(l => l.id === result.destination.droppableId);
+
+        // if the drop is on the same list, just reorder the list
+        if (result.source.droppableId === result.destination.droppableId) {
+            const newCards = reorder(
+                destList.cards,
+                result.source.index,
+                result.destination.index,
+            );
+            const newLists = [...this.state.lists];
+            newLists[destListIndex].cards = newCards;
+
+            this.setState({ lists: newLists });
+
+            // the drop is on another list, move the dropped item
+            // to the destination
+        } else {
+            const newCards = move(sourceList.cards, destList.cards, result.source, result.destination);
+            const newLists = [...this.state.lists];
+            const listIds = Object.keys(newCards);
+
+            for (let id of listIds) {
+                const currList = newLists.filter(l => l.id === id)[0];
+                currList.cards = newCards[id];
+            }
+
+            this.setState({ lists: newLists });
+        }
+
         // sourceListId, destinationListId, sourceTaskIndex, destinationTaskIndex
-        this.props.socket.emit('move-task', { 
+        this.props.socket.emit('move-task', {
             boardId: this.state.boardId,
             sourceListId: result.source.droppableId,
             destinationListId: result.destination.droppableId,
@@ -128,7 +158,7 @@ class Board extends React.Component {
 
     render() {
         const listItems = this.state.lists.map((l, idx) => {
-            const cards = l.cards.map((c, cIdx) => 
+            const cards = l.cards.map((c, cIdx) =>
                 <Card cardId={c.id} title={c.title} listId={l.id} cardIdx={cIdx} deleteCard={this.deleteCard} />
             );
 
@@ -148,9 +178,9 @@ class Board extends React.Component {
                         )}
                     </Droppable>
 
-                    {this.state.newCardListId === l.id && <NewCard title={this.state.newCardTitle} add={(title) => this.handleAddCard(l.id, title)} abort={this.abortNewCard}/>}
+                    {this.state.newCardListId === l.id && <NewCard title={this.state.newCardTitle} add={(title) => this.handleAddCard(l.id, title)} abort={this.abortNewCard} />}
 
-                    {this.state.newCardListId !== l.id && <div className="add-card" onClick={() => this.showNewCard(l.id)}>+ Add new card</div> }
+                    {this.state.newCardListId !== l.id && <div className="add-card" onClick={() => this.showNewCard(l.id)}>+ Add new card</div>}
                 </div>
             );
         });
@@ -158,11 +188,11 @@ class Board extends React.Component {
         return (
             <div className="grid">
                 <DragDropContext onDragStart={this.dragStart} onDragEnd={this.dragEnd}>
-                {listItems}
+                    {listItems}
                 </DragDropContext>
 
                 {!this.state.newList && <div className="add-list" onClick={this.showNewList}><span>+ Add a new list</span></div>}
-                {this.state.newList && <NewList title={this.state.newListTitle} add={(title) => this.handleAddList(title)} abort={this.abortNewList}/>}
+                {this.state.newList && <NewList title={this.state.newListTitle} add={(title) => this.handleAddList(title)} abort={this.abortNewList} />}
             </div>
         );
     }
