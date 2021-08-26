@@ -12,6 +12,12 @@ code {
 
 textarea {
   font-size: 16px;
+  font-family: 'Roboto', sans-serif;
+}
+
+input {
+  font-size: 16px;
+  font-family: 'Roboto', sans-serif;
 }
 
 .primary-action-btn {
