@@ -137,6 +137,13 @@ function deleteList(boardId, listId) {
     saveBoardToJSON(boards[boardId]);
 }
 
+function updateListTitle(boardId, listId, title) {
+    const listToUpdate = boards[boardId].lists.find(l => l.id === listId);
+    listToUpdate.title = title;
+
+    saveBoardToJSON(boards[boardId]);
+}
+
 function saveBoardToJSON(boardData) {
     const jsonData = JSON.stringify(boardData, null, 2);
     const filepath = './boards/' + boardData.id + '.json';
@@ -284,6 +291,19 @@ io.on('connection', client => {
         io.to('board:' + boardId).emit('board-update', boards[boardId]);
 
         console.log('delete list', boardId, listId);
+    });
+
+    client.on('update-list-title', (data) => {
+        const boardId = data.boardId;
+        const listId = data.listId;
+        const title = data.title;
+
+        updateListTitle(boardId, listId, title);
+
+        // send update
+        io.to('board:' + boardId).emit('board-update', boards[boardId]);
+
+        console.log('update list title', boardId, listId, title);
     });
 });
 

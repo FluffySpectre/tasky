@@ -12,7 +12,7 @@
     height: auto;
     min-height: 15rem;
     background-color: #ddd;
-    padding: 1rem;
+    padding: 0;
     margin-right: 0.5rem;
     border-radius: 0.25rem;
 }
@@ -22,7 +22,7 @@
 }
 
 .cards {
-    /* padding: 1rem; */
+    padding: 0.5rem;
     height: 100%;
     border-radius: 0.25rem;
 }
@@ -48,18 +48,22 @@
     justify-content: center;
     cursor: pointer;
     color: #fff;
+    border-radius: 0.25rem;
 }
 
 .delete-list {
-    display: none;
-    position: absolute;
-    right: 0;
-    width: 1rem;
+    /* display: none; */
+    margin-left: auto;
+    width: 2rem;
+    height: 2rem;
     cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
-.list:hover .delete-list {
+/* .list:hover .delete-list {
     display: block;
-}
+} */
 
 .titlebar {
     display: flex;

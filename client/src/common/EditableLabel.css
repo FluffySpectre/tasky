@@ -1,0 +1,25 @@
+.editable-label {
+    width: 100%;
+}
+
+input {
+    width: calc(100% - 2px - 1rem);
+    height: calc(2rem - 2px);
+    /* padding: 0.25rem; */
+    border: 1px solid #333;
+    margin-left: 0.5rem;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+    font-size: 1rem;
+}
+
+.edit-label {
+    font-weight: bold;
+    font-size: 1rem;
+    padding-left: 0.5rem;
+    min-height: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+}

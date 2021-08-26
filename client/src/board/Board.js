@@ -4,6 +4,7 @@ import './Board.css';
 import Card from './Card';
 import NewCard from './NewCard';
 import NewList from './NewList';
+import EditableLabel from '../common/EditableLabel';
 import { move, reorder } from './reorder';
 
 class Board extends React.Component {
@@ -68,6 +69,10 @@ class Board extends React.Component {
 
     deleteList = (listId) => {
         this.props.socket.emit('delete-list', { boardId: this.state.boardId, listId });
+    }
+
+    updateListTitle = (listId, title) => {
+        this.props.socket.emit('update-list-title', { boardId: this.state.boardId, listId, title });
     }
 
     // CARDS
@@ -165,7 +170,8 @@ class Board extends React.Component {
             return (
                 <div key={l.id} id={l.id} className="list">
                     <div className="titlebar">
-                        <div className="title">{l.title + ' (' + l.cards.length + ')'}</div>
+                        {/* <div className="title">{l.title + ' (' + l.cards.length + ')'}</div> */}
+                        <EditableLabel text={l.title} placeholder="Add a title..." submit={(text) => this.updateListTitle(l.id, text)} />
                         <div className="delete-list" onClick={() => this.deleteList(l.id)}>X</div>
                     </div>
 
