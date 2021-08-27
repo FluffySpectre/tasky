@@ -1,0 +1,33 @@
+.login {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.login-box {
+    width: 50rem;
+    height: 25rem;
+    background-color: dimgray;
+    border-radius: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.login-btn {
+    width: 20rem;
+    height: 5rem;
+    font-size: xx-large;
+}
+
+.username {
+    font-size: 30px;
+    height: 5rem;
+    margin-left: 0;
+    margin-bottom: 1rem;
+    text-align: center;
+}

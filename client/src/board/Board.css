@@ -1,5 +1,4 @@
 .grid {
-    width: 100%;
     height: 100%;
     color: #333;
     display: flex;
@@ -23,6 +22,7 @@
 
 .cards {
     padding: 0.5rem;
+    padding-top: 0;
     height: 100%;
     border-radius: 0.25rem;
 }
@@ -40,30 +40,45 @@
 }
 
 .add-list {
-    background-color: #ffffff3d;
+    background-color: #00000022;
     width: 20rem;
-    height: 2rem;
+    height: 3rem;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    color: #fff;
+    color: #333;
     border-radius: 0.25rem;
 }
 
 .delete-list {
-    /* display: none; */
+    display: none;
+    margin: 0.5rem;
     margin-left: auto;
     width: 2rem;
     height: 2rem;
     cursor: pointer;
-    display: flex;
     align-items: center;
     justify-content: center;
 }
-/* .list:hover .delete-list {
-    display: block;
-} */
+.list:hover .delete-list {
+    display: flex;
+}
+
+.task-count {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #333;
+    border-radius: 0.25rem;
+    color: #fff;
+    width: 2rem;
+    height: 2rem;
+    margin: 0.5rem;
+}
+.list:hover .task-count {
+    display: none;
+}
 
 .titlebar {
     display: flex;

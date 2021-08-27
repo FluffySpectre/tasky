@@ -1,5 +1,5 @@
 .editable-label {
-    width: 100%;
+    width: 88%;
 }
 
 input {
@@ -8,7 +8,7 @@ input {
     /* padding: 0.25rem; */
     border: 1px solid #333;
     margin-left: 0.5rem;
-    margin-bottom: 0.5rem;
+    margin-top: 0.5rem;
     font-weight: bold;
     font-size: 1rem;
 }
@@ -17,7 +17,7 @@ input {
     font-weight: bold;
     font-size: 1rem;
     padding-left: 0.5rem;
-    min-height: 2rem;
+    min-height: 3rem;
     display: flex;
     flex-direction: column;
     align-items: flex-start;

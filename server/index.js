@@ -57,7 +57,18 @@ const move = (source, destination, droppableSource, droppableDestination) => {
     return result;
 };
 
+// LOGIN
+function loginUser(client, username) {
+    const userInfo = users.find(u => u.client.id === client.id);
+    userInfo.username = username;
+}
+
 // DATA
+
+function getBoardsOfUser(username) {
+    return Object.values(boards).filter(b => b.creator === username)
+                                .sort((a, b) => b.createDate - a.createDate);
+}
 
 function createTask(boardId, listId, title) {
     boards[boardId].lists = boards[boardId].lists.map(l => {
@@ -165,6 +176,10 @@ function loadBoardsFromJSON() {
     return loadedBoards;
 }
 
+function getUserByClient(client) {
+    return users.find(u => u.client.id === client.id);
+}
+
 let users = [];
 let boards = loadBoardsFromJSON();
 
@@ -183,6 +198,38 @@ io.on('connection', client => {
         users = users.filter(u => u.client.id !== client.id);
     });
 
+    client.on('login', (data) => {
+        const username = data.username;
+
+        loginUser(client, username);
+
+        console.log('login as ' + username);
+    });
+
+    client.on('board-list', (data) => {
+        const user = getUserByClient(client);
+        const boardsOfUser = getBoardsOfUser(user.username);
+
+        client.emit('board-list', boardsOfUser);
+
+        console.log('requested board list');
+    });
+
+    client.on('create-board', (data) => {
+        const boardTitle = data.title;
+
+        const user = getUserByClient(client);
+
+        const boardId = getId();
+        const boardInfo = { id: boardId, creator: user.username, createDate: Date.now(), title: boardTitle, lists: [] };
+        boards[boardId] = boardInfo;
+
+        saveBoardToJSON(boards[boardId]);
+
+        const boardsOfUser = getBoardsOfUser(user.username);
+        client.emit('board-list', boardsOfUser);
+    });
+
     client.on('board', (data) => {
         console.log('Board requested. Return data of board with the given id or create a new one.', data);
 
@@ -192,30 +239,25 @@ io.on('connection', client => {
         // if there is no id, or its exists no JSON-file create a new board
         // and send that instead
 
-        let boardInfo = {};
-        if (!data.id) {
-            const boardId = getId();
-            boardInfo = { id: boardId, lists: [{ id: getId(), title: 'ToDo', cards: [{ id: getId(), title: 'My first task' }] }] };
-            boards[boardId] = boardInfo;
-        } else {
-            if (boards.hasOwnProperty(data.id)) {
-                boardInfo = boards[data.id];
-            } else {
-                boardInfo = { id: data.id, lists: [{ id: getId(), title: 'ToDo', cards: [{ id: getId(), title: 'My first task' }] }] };
-                boards[data.id] = boardInfo;
+        if (boards.hasOwnProperty(data.id)) {
+            const boardInfo = boards[data.id];
+
+            // assign user to board
+            const user = getUserByClient(client);
+            if (user) {
+                // leave the channel of the current board first
+                if (user.currentBoardId !== null) {
+                    client.leave('board:' + user.currentBoardId);
+                }
+
+                user.currentBoardId = boardInfo.id;
+
+                console.log('User assigned to board', boardInfo.id);
             }
+            client.join('board:' + boardInfo.id);
+
+            io.to('board:' + boardInfo.id).emit('board-update', boardInfo);
         }
-
-        // assign user to board
-        const user = users.find(u => u.client.id === client.id);
-        if (user) {
-            user.currentBoardId = boardInfo.id;
-
-            console.log('User assigned to board', boardInfo.id);
-        }
-        client.join('board:' + boardInfo.id);
-
-        io.to('board:' + boardInfo.id).emit('board-update', boardInfo);
     });
 
     client.on('leave-board', () => {

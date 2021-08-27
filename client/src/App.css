@@ -1,8 +1,36 @@
 .App {
+  width: 100vw;
+  height: 100vh;
+}
+
+.container {
+  display: flex;
+  align-items: flex-start;
   width: 100%;
+  height: calc(100% - 3rem);
+  position: relative;
+}
+
+.board-list-container {
+  width: 15rem;
   height: 100%;
 }
 
 .board-container {
   padding: 0.5rem;
+  width: calc(100% - 15rem);
+  height: 100%;
+  position: relative;
+}
+
+.no-board-selected {
+  display: flex;
+  /* align-items: center; */
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+.no-board-msg {
+  font-size: 1.75rem;
+  margin-top: 5rem;
 }

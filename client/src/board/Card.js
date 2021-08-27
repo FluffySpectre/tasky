@@ -8,7 +8,7 @@ function Card(props) {
              {(provided, snapshot) => (
                 <div className="card" ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                     <div className="card-title">{props.title}</div>
-                    <div className="delete-card" onClick={() => props.deleteCard(props.listId, props.cardId)}>X</div>
+                    <div className="delete-card" onClick={() => props.deleteCard(props.listId, props.cardId)}><span>X</span></div>
                 </div>
             )}
         </Draggable>

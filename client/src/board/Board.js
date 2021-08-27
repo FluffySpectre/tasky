@@ -32,17 +32,37 @@ class Board extends React.Component {
         );
 
         // subscribe for board updates
-        this.props.socket.on('board-update', (data) => {
-            console.log('got new board infos:', data);
-
-            this.setState({ boardId: data.id, lists: data.lists });
-        });
+        this.props.socket.on('board-update', this.socketBoardUpdate);
         // request the selected board or create a new one
         this.props.socket.emit('board', { id: this.props.id });
     }
 
+    componentDidUpdate(prevProps) {
+        // reset the board if the board id changes
+        if (this.props.id !== prevProps.id) {
+            this.setState({ 
+                boardId: this.props.id,
+                lists: [],
+                newCardListId: null,
+                newCardTitle: '',
+                newList: false,
+                newListTitle: ''
+            });
+
+            if (this.props.id) {
+                // request the selected board or create a new one
+                this.props.socket.emit('board', { id: this.props.id });
+            }
+        }
+    }
+
     componentWillUnmount() {
         this.props.socket.emit('leave-board');
+        this.props.socket.off('board-update', this.socketBoardUpdate);
+    }
+
+    socketBoardUpdate = (data) => {
+        this.setState({ boardId: data.id, lists: data.lists });
     }
 
     // LISTS
@@ -173,6 +193,7 @@ class Board extends React.Component {
                         {/* <div className="title">{l.title + ' (' + l.cards.length + ')'}</div> */}
                         <EditableLabel text={l.title} placeholder="Add a title..." submit={(text) => this.updateListTitle(l.id, text)} />
                         <div className="delete-list" onClick={() => this.deleteList(l.id)}>X</div>
+                        <div className="task-count"><span>{l.cards.length}</span></div>
                     </div>
 
                     <Droppable droppableId={l.id} direction="vertical">
