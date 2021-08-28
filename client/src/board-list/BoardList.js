@@ -1,13 +1,16 @@
 import React from 'react';
 import BoardItem from './BoardItem';
 import './BoardList.css';
+import NewBoard from './NewBoard';
 
 class BoardList extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
             username: '',
-            boards: []
+            boards: [],
+            newBoard: false,
+            newBoardTitle: '',
         };
     }
 
@@ -22,11 +25,35 @@ class BoardList extends React.Component {
     }
 
     socketOnBoardList = (data) => {
+        if (this.state.selectNewBoard && data.length > 0) {
+            this.props.openBoard(data[0].id);
+            this.setState({ selectNewBoard: false });
+        }
+
         this.setState({ boards: data });
     }
 
-    openAddBoard = () => {
-        this.props.socket.emit('create-board', { title: 'HALLO WELT' + Math.random() });
+    showCreateBoard = () => {
+        this.setState({ newBoard: true, newBoardTitle: '' });
+    }
+
+    handleCreateBoard = (title) => {
+        this.createBoard(title);
+
+        // reset the input form
+        this.setState({
+            newBoard: false,
+            newBoardTitle: ''
+        });
+    }
+
+    abortCreateBoard = () => {
+        this.setState({ newBoard: false, newBoardTitle: '' });
+    }
+
+    createBoard(title) {
+        this.props.socket.emit('create-board', { title });
+        this.setState({ selectNewBoard: true });
     }
 
     render() {
@@ -36,7 +63,9 @@ class BoardList extends React.Component {
 
         return (
             <div className="board-list">
-                <button className="primary-action-btn new-board-btn" onClick={this.openAddBoard}>+ Create new board</button>
+                {!this.state.newBoard && <button className="primary-action-btn new-board-btn" onClick={this.showCreateBoard}>+ Create new board</button>}
+                {this.state.newBoard && <NewBoard title={this.state.newBoardTitle} add={(title) => this.handleCreateBoard(title)} abort={this.abortCreateBoard} />}
+                
                 <div className="boards">
                     <div style={{ width: '100%' }}>
                         {boardItems}

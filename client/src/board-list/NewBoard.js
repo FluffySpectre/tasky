@@ -1,7 +1,7 @@
 import React from 'react';
-import './NewCard.css';
+import './NewBoard.css';
 
-class NewCard extends React.Component {
+class NewBoard extends React.Component {
     constructor(props) {
         super(props);
         this.state = { 
@@ -15,11 +15,11 @@ class NewCard extends React.Component {
 
     handleKeyUpTitle = (event) => {
         if (event.key === 'Enter' || event.keyCode === 13) {
-            this.handleAddCard();
+            this.handleAdd();
         }
     }
 
-    handleAddCard = () => {
+    handleAdd = () => {
         if (!this.validTitle()) return;
 
         this.props.add(this.state.title.trim());
@@ -33,14 +33,14 @@ class NewCard extends React.Component {
 
     render() {
         return (
-            <div className="new-card">
+            <div className="new-board">
                 <textarea 
                     autoFocus
-                    type="text" placeholder="Insert a title for this card..."
-                    className="new-card-title" value={this.state.title}
+                    type="text" placeholder="Insert a title for this board..."
+                    className="new-board-title" value={this.state.title}
                     onChange={this.handleTitleChange} onKeyUp={this.handleKeyUpTitle} />
-                <div className="new-card-buttons">
-                    <button className="primary-action-btn add" onClick={this.handleAddCard}>Add card</button>
+                <div className="new-board-buttons">
+                    <button className="primary-action-btn add" onClick={this.handleAdd}>Create board</button>
                     <div className="abort-creation" onClick={this.props.abort}><span>X</span></div>
                 </div>
             </div>
@@ -48,4 +48,4 @@ class NewCard extends React.Component {
     }
 }
 
-export default NewCard;
+export default NewBoard;

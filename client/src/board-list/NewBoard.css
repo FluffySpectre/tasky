@@ -1,22 +1,22 @@
-.new-card {
+.new-board {
+    background-color: #ddd;
+    width: calc(100% - 1rem);
     padding: 0.5rem;
-    padding-top: 0;
-    padding-bottom: 0;
+    border-radius: 0.25rem;
 }
 
-.new-card-buttons {
+.new-board-buttons {
     display: flex;
     flex-direction: row;
     position: relative;
-    height: 2.5rem;
 }
 
 textarea {
     width: calc(100% - 1rem - 2px);
-    min-height: 5rem;
     resize: none;
     padding: 0.5rem;
     border: 1px solid #333;
+    min-height: 1rem;
 }
 
 .abort-creation {

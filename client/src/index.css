@@ -23,11 +23,11 @@ input {
 .primary-action-btn {
   color: white;
   background-color: #026aa7;
-  padding: 0.5rem;
+  /* padding: 0.5rem; */
   border-radius: 0.25rem;
   cursor: pointer;
   user-select: none;
-  /* height: 2rem; */
+  height: 2rem;
   border: none;
   font-size: 1rem;
 }

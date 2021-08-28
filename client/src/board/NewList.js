@@ -10,7 +10,7 @@ class NewList extends React.Component {
     }
 
     handleTitleChange = (event) => {
-        this.setState({ title: event.target.value });
+        this.setState({ title: event.target.value.replace('\n', '') });
     }
 
     handleKeyUpTitle = (event) => {
@@ -20,8 +20,15 @@ class NewList extends React.Component {
     }
 
     handleAdd = () => {
-        this.props.add(this.state.title);
+        if (!this.validTitle()) return;
+
+        this.props.add(this.state.title.trim());
         this.setState({ title: '' });
+    }
+
+    validTitle() {
+        const t = this.state.title.replace('\n', '');
+        return t && t.length > 0;
     }
 
     render() {
