@@ -56,9 +56,13 @@ class BoardList extends React.Component {
         this.setState({ selectNewBoard: true });
     }
 
+    editBoard(boardId, title) {
+        this.props.socket.emit('update-board', { boardId, title });
+    }
+
     render() {
         const boardItems = this.state.boards.map(b => (
-            <BoardItem key={b.id} boardId={b.id} title={b.title} openBoard={() => this.props.openBoard(b.id)} selected={this.props.boardId === b.id} />
+            <BoardItem key={b.id} boardId={b.id} title={b.title} openBoard={() => this.props.openBoard(b.id)} selected={this.props.boardId === b.id} editBoard={(boardId, title) => this.editBoard(boardId, title)} />
         ));
 
         return (

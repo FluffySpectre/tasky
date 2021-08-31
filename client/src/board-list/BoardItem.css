@@ -19,8 +19,26 @@
 
 .board-title {
     width: 100%;
+    text-overflow: ellipsis;
+    overflow-x: hidden;
 }
 
 .board-selected {
     background-color: #fff;
+}
+
+.edit-board-btn {
+    width: 2rem;
+    height: 2rem;
+    display: none;
+}
+.board-item:hover .edit-board-btn {
+    display: block;
+}
+
+.board-title-input {
+    margin: 0;
+    width: auto;
+    font-size: 1rem;
+    font-weight: normal;
 }

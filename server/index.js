@@ -230,6 +230,20 @@ io.on('connection', client => {
         client.emit('board-list', boardsOfUser);
     });
 
+    client.on('update-board', (data) => {
+        const boardId = data.boardId;
+        const boardTitle = data.title;
+
+        const user = getUserByClient(client);
+
+        boards[boardId].title = boardTitle;
+
+        saveBoardToJSON(boards[boardId]);
+
+        const boardsOfUser = getBoardsOfUser(user.username);
+        client.emit('board-list', boardsOfUser);
+    });
+
     client.on('board', (data) => {
         console.log('Board requested. Return data of board with the given id or create a new one.', data);
 
