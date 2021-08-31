@@ -155,6 +155,11 @@ function updateListTitle(boardId, listId, title) {
     saveBoardToJSON(boards[boardId]);
 }
 
+function deleteBoard(boardId) {
+    delete boards[boardId];
+    deleteBoardJSON(boardId);
+}
+
 function saveBoardToJSON(boardData) {
     const jsonData = JSON.stringify(boardData, null, 2);
     const filepath = './boards/' + boardData.id + '.json';
@@ -174,6 +179,13 @@ function loadBoardsFromJSON() {
     }
 
     return loadedBoards;
+}
+
+function deleteBoardJSON(boardId) {
+    const filepath = './boards/' + boardId + '.json';
+    fs.rm(filepath, (err) => {
+        if (err) console.error('FILE RM ERROR');
+    });
 }
 
 function getUserByClient(client) {
@@ -228,6 +240,8 @@ io.on('connection', client => {
 
         const boardsOfUser = getBoardsOfUser(user.username);
         client.emit('board-list', boardsOfUser);
+
+        console.log('board created', boardInfo);
     });
 
     client.on('update-board', (data) => {
@@ -242,6 +256,21 @@ io.on('connection', client => {
 
         const boardsOfUser = getBoardsOfUser(user.username);
         client.emit('board-list', boardsOfUser);
+
+        console.log('board updated', boardId, boardTitle);
+    });
+
+    client.on('delete-board', (data) => {
+        const boardId = data.boardId;
+
+        const user = getUserByClient(client);
+
+        deleteBoard(boardId);
+
+        const boardsOfUser = getBoardsOfUser(user.username);
+        client.emit('board-list', boardsOfUser);
+
+        console.log('board deleted', boardId);
     });
 
     client.on('board', (data) => {

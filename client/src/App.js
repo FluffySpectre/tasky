@@ -39,6 +39,12 @@ class App extends React.Component {
     this.setState({ boardId });
   }
 
+  boardDeleted = (boardId) => {
+    if (this.state.boardId === boardId) {
+      this.setState({ boardId: null });
+    }
+  }
+
   render() {
     return (
       <div className="App">
@@ -49,7 +55,7 @@ class App extends React.Component {
         { this.state.username && 
           <div className="container">
             <div className="board-list-container">
-              <BoardList socket={socket} user={this.state.username} openBoard={this.openBoard} boardId={this.state.boardId} />
+              <BoardList socket={socket} user={this.state.username} openBoard={this.openBoard} boardDeleted={this.boardDeleted} boardId={this.state.boardId} />
             </div>
 
               <div className="board-container">
