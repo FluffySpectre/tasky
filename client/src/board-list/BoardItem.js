@@ -11,7 +11,10 @@ class BoardItem extends React.Component {
         };
     }
     
-    showEdit = () => {
+    showEdit = (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+
         this.setState({ edit: true });
     }
 
