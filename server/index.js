@@ -125,7 +125,7 @@ function moveTask(boardId, sourceListId, destinationListId, sourceTaskIndex, des
 
         boards[boardId].lists = newLists;
 
-        console.log('Dropped in same list, reordered', newLists);
+        console.log('Dropped in same list, reordered');
 
     // the drop is on another list, move the dropped item
     // to the destination
@@ -143,7 +143,7 @@ function moveTask(boardId, sourceListId, destinationListId, sourceTaskIndex, des
 
         boards[boardId].lists = newLists;
 
-        console.log('Dropped in another list, moved', newLists);
+        console.log('Dropped in another list, moved');
     }
 
     saveBoardToJSON(boards[boardId]);
