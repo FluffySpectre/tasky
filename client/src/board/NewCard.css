@@ -27,3 +27,7 @@ textarea {
     align-items: center;
     justify-content: center;
 }
+
+.add {
+    margin-top: 0.25rem;
+}

@@ -4,6 +4,7 @@ import './Board.css';
 import NewList from './NewList';
 import { move, reorder } from './reorder';
 import List from './List';
+import EditCardDialog from './EditCardDialog';
 
 class Board extends React.Component {
     constructor(props) {
@@ -13,6 +14,11 @@ class Board extends React.Component {
             lists: [],
             newList: false,
             newListTitle: '',
+            editCard: false,
+            editCardId: null,
+            editCardListId: null,
+            editCardTitle: '',
+            editCardDescription: '',
         };
     }
 
@@ -89,8 +95,30 @@ class Board extends React.Component {
 
     // CARDS
 
+    handleShowEdit = (listId, cardId, title, description) => {
+        this.setState({ editCard: true, editCardId: cardId, editCardListId: listId, editCardTitle: title, editCardDescription: description });
+    }
+
+    handleEdit = (title, description) => {
+        this.editCard(this.state.editCardListId, this.state.editCardId, title, description);
+        this.setState({ editCard: false, editCardId: null, editCardListId: null });
+    }
+
+    handleDelete = () => {
+        this.deleteCard(this.state.editCardListId, this.state.editCardId);
+        this.setState({ editCard: false, editCardId: null, editCardListId: null });
+    }
+
+    handleCancelEdit = () => {
+        this.setState({ editCard: false, editCardId: null, editCardListId: null });
+    }
+
     addCard = (listId, title) => {
         this.props.socket.emit('create-task', { boardId: this.state.boardId, title, listId });
+    }
+
+    editCard = (listId, cardId, title, description) => {
+        this.props.socket.emit('edit-task', { boardId: this.state.boardId, cardId, title, description, listId });
     }
 
     deleteCard = (listId, cardId) => {
@@ -163,7 +191,7 @@ class Board extends React.Component {
                     key={idx}
                     list={l}
                     addCard={this.addCard}
-                    deleteCard={this.deleteCard}
+                    editCard={this.handleShowEdit}
                     updateListTitle={this.updateListTitle}
                     deleteList={this.deleteList}
                 />
@@ -178,6 +206,16 @@ class Board extends React.Component {
 
                 {!this.state.newList && <div className="add-list" onClick={this.showNewList}><span>+ Add a new list</span></div>}
                 {this.state.newList && <NewList title={this.state.newListTitle} add={(title) => this.handleAddList(title)} abort={this.abortNewList} />}
+
+                {this.state.editCard && <EditCardDialog 
+                    cardId={this.state.editCardId}
+                    listId={this.state.editCardListId}
+                    cardTitle={this.state.editCardTitle}
+                    cardDescription={this.state.editCardDescription}
+                    edit={this.handleEdit}
+                    delete={this.handleDelete}
+                    cancel={this.handleCancelEdit} />
+                }
             </div>
         );
     }

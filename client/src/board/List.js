@@ -36,7 +36,7 @@ export default class List extends Component {
         const l = this.props.list;
 
         const cards = l.cards.map((c, cIdx) =>
-            <Card cardId={c.id} title={c.title} listId={l.id} cardIdx={cIdx} deleteCard={this.props.deleteCard} />
+            <Card cardId={c.id} title={c.title} description={c.description} listId={l.id} cardIdx={cIdx} editCard={this.props.editCard} />
         );
 
         return (

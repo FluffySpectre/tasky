@@ -45,8 +45,13 @@ class EditableLabel extends React.Component {
     }
 
     render() {
+        let className = 'editable-label';
+        if (this.props.className) {
+            className += ' ' + this.props.className;
+        }
+
         return (
-            <div className="editable-label">
+            <div className={className}>
                 {this.state.edit && <input 
                     autoFocus
                     type="text" placeholder={this.props.placeholder}

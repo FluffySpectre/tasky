@@ -81,6 +81,19 @@ function createTask(boardId, listId, title) {
     saveBoardToJSON(boards[boardId]);
 }
 
+function editTask(boardId, listId, taskId, title, description) {
+    boards[boardId].lists = boards[boardId].lists.map(l => {
+        if (l.id === listId) {
+            const task = l.cards.find(c => c.id === taskId);
+            task.title = title;
+            task.description = description;
+        }
+        return l;
+    });
+
+    saveBoardToJSON(boards[boardId]);
+}
+
 function deleteTask(boardId, listId, taskId) {
     boards[boardId].lists = boards[boardId].lists.map(l => {
         if (l.id === listId) {
@@ -324,6 +337,21 @@ io.on('connection', client => {
         io.to('board:' + boardId).emit('board-update', boards[boardId]);
 
         console.log('create task', boardId, title, listId);
+    });
+
+    client.on('edit-task', (data) => {
+        const boardId = data.boardId;
+        const listId = data.listId;
+        const taskId = data.cardId;
+        const title = data.title;
+        const description = data.description;
+
+        editTask(boardId, listId, taskId, title, description);
+
+        // send update
+        io.to('board:' + boardId).emit('board-update', boards[boardId]);
+
+        console.log('edit task', boardId, taskId, listId, title);
     });
 
     client.on('delete-task', (data) => {
