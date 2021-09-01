@@ -29,7 +29,7 @@
     margin: -0.06rem;
 }
 .card:hover .edit-card {
-    display: flex;
+    display: block;
 }
 
 .notes-icon {
