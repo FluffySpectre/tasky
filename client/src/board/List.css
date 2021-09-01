@@ -46,6 +46,11 @@
   display: flex;
 }
 
+.delete-list svg {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
 .task-count {
   display: flex;
   align-items: center;
