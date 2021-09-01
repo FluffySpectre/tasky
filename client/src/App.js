@@ -6,7 +6,7 @@ import Board from './board/Board';
 import HeaderBar from './common/HeaderBar';
 import BoardList from './board-list/BoardList';
 
-const socket = io.connect('http://192.168.1.5:3001', { transports: ['websocket', 'polling', 'flashsocket'] });
+const socket = io.connect('http://localhost:3001', { transports: ['websocket', 'polling', 'flashsocket'] });
 
 class App extends React.Component {
   constructor(props) {
