@@ -1,11 +1,9 @@
 import React from 'react';
-import { DragDropContext, Droppable } from 'react-beautiful-dnd';
+import { DragDropContext } from 'react-beautiful-dnd';
 import './Board.css';
-import Card from './Card';
-import NewCard from './NewCard';
 import NewList from './NewList';
-import EditableLabel from '../common/EditableLabel';
 import { move, reorder } from './reorder';
+import List from './List';
 
 class Board extends React.Component {
     constructor(props) {
@@ -13,8 +11,6 @@ class Board extends React.Component {
         this.state = {
             boardId: props.id || null,
             lists: [],
-            newCardListId: null,
-            newCardTitle: '',
             newList: false,
             newListTitle: '',
         };
@@ -24,8 +20,6 @@ class Board extends React.Component {
         this.setState({
             boardId: this.props.id || null,
             lists: [],
-            newCardListId: null,
-            newCardTitle: '',
             newList: false,
             newListTitle: '',
         }
@@ -43,8 +37,6 @@ class Board extends React.Component {
             this.setState({ 
                 boardId: this.props.id,
                 lists: [],
-                newCardListId: null,
-                newCardTitle: '',
                 newList: false,
                 newListTitle: ''
             });
@@ -97,24 +89,7 @@ class Board extends React.Component {
 
     // CARDS
 
-    showNewCard(listId) {
-        this.setState({ newCardListId: listId, newCardTitle: '' });
-    }
-
-    abortNewCard = () => {
-        this.setState({ newCardListId: null, newCardTitle: '' });
-    }
-
-    handleAddCard = (listId, title) => {
-        this.addCard(listId, title);
-
-        // reset the input form
-        this.setState({
-            newCardTitle: ''
-        });
-    }
-
-    addCard(listId, title) {
+    addCard = (listId, title) => {
         this.props.socket.emit('create-task', { boardId: this.state.boardId, title, listId });
     }
 
@@ -183,32 +158,15 @@ class Board extends React.Component {
 
     render() {
         const listItems = this.state.lists.map((l, idx) => {
-            const cards = l.cards.map((c, cIdx) =>
-                <Card cardId={c.id} title={c.title} listId={l.id} cardIdx={cIdx} deleteCard={this.deleteCard} />
-            );
-
             return (
-                <div key={l.id} id={l.id} className="list">
-                    <div className="titlebar">
-                        {/* <div className="title">{l.title + ' (' + l.cards.length + ')'}</div> */}
-                        <EditableLabel text={l.title} placeholder="Add a title..." submit={(text) => this.updateListTitle(l.id, text)} />
-                        <div className="delete-list" onClick={() => this.deleteList(l.id)}>X</div>
-                        <div className="task-count"><span>{l.cards.length}</span></div>
-                    </div>
-
-                    <Droppable droppableId={l.id} direction="vertical">
-                        {(provided, snapshot) => (
-                            <div className={'cards' + (snapshot.isDraggingOver ? ' dragging-over' : '')} ref={provided.innerRef} {...provided.droppableProps}>
-                                {cards}
-                                {provided.placeholder}
-                            </div>
-                        )}
-                    </Droppable>
-
-                    {this.state.newCardListId === l.id && <NewCard title={this.state.newCardTitle} add={(title) => this.handleAddCard(l.id, title)} abort={this.abortNewCard} />}
-
-                    {this.state.newCardListId !== l.id && <div className="add-card" onClick={() => this.showNewCard(l.id)}>+ Add new card</div>}
-                </div>
+                <List
+                    key={idx}
+                    list={l}
+                    addCard={this.addCard}
+                    deleteCard={this.deleteCard}
+                    updateListTitle={this.updateListTitle}
+                    deleteList={this.deleteList}
+                />
             );
         });
 
