@@ -6,40 +6,6 @@
     justify-content: flex-start;
 }
 
-.list {
-    width: 20rem;
-    height: auto;
-    min-height: 15rem;
-    background-color: #ddd;
-    padding: 0;
-    margin-right: 0.5rem;
-    border-radius: 0.25rem;
-}
-.list .title {
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-}
-
-.cards {
-    padding: 0.5rem;
-    padding-top: 0;
-    padding-bottom: 0;
-    height: 100%;
-    border-radius: 0.25rem;
-}
-.dragging-over {
-    min-height: 2rem;
-    background-color: rgba(0, 0, 0, 0.1);
-}
-
-.add-card {
-    padding: 0.5rem;
-    margin-bottom: 0.5rem;
-    color: #666;
-    cursor: pointer;
-    user-select: none;
-}
-
 .add-list {
     background-color: #00000022;
     width: 20rem;
@@ -50,40 +16,4 @@
     cursor: pointer;
     color: #333;
     border-radius: 0.25rem;
-}
-
-.delete-list {
-    display: none;
-    margin: 0.5rem;
-    margin-left: auto;
-    width: 2rem;
-    height: 2rem;
-    cursor: pointer;
-    align-items: center;
-    justify-content: center;
-}
-.list:hover .delete-list {
-    display: flex;
-}
-
-.task-count {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #333;
-    border-radius: 0.25rem;
-    color: #fff;
-    width: 1.5rem;
-    height: 1.5rem;
-    font-size: 0.75rem;
-    margin: 0.75rem;
-}
-.list:hover .task-count {
-    display: none;
-}
-
-.titlebar {
-    display: flex;
-    flex-direction: row;
-    position: relative;
 }

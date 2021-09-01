@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Droppable } from 'react-beautiful-dnd';
+import './List.css';
 import EditableLabel from '../common/EditableLabel';
 import Card from './Card';
 import NewCard from './NewCard';
