@@ -1,7 +1,9 @@
 .edit-card-dialog {
+  position: fixed;
+  top: 0;
+  left: 0;
   width: 100%;
   height: 100%;
-  position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,20 +19,18 @@
 
 .dialog-container {
   width: 35rem;
-  background-color: #fff;
+  background-color: #f4f5f7;
   border-radius: 0.25rem;
   z-index: 1001;
   position: relative;
 }
 
 .dialog-close {
-  width: 2rem;
-  height: 2rem;
+  width: 1.5rem;
+  height: 1.5rem;
   position: absolute;
-  right: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  right: 0.5rem;
+  top: 0.5rem;
   cursor: pointer;
 }
 
