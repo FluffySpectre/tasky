@@ -16,8 +16,7 @@
 }
 
 .dialog-container {
-  width: 60%;
-  height: 51%;
+  width: 35rem;
   background-color: #fff;
   border-radius: 0.25rem;
   z-index: 1001;
@@ -67,4 +66,5 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  margin-bottom: 0.5rem;
 }
