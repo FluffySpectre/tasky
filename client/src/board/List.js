@@ -10,7 +10,7 @@ export default class List extends Component {
         super(props);
 
         this.state = {
-            newCardListId: null,
+            newCard: false,
             newCardTitle: '',
         };
     }
@@ -24,12 +24,12 @@ export default class List extends Component {
         });
     }
 
-    showNewCard(listId) {
-        this.setState({ newCardListId: listId, newCardTitle: '' });
+    showNewCard = () => {
+        this.setState({ newCard: true, newCardTitle: '' });
     }
 
     abortNewCard = () => {
-        this.setState({ newCardListId: null, newCardTitle: '' });
+        this.setState({ newCard: false, newCardTitle: '' });
     }
 
     render() {
@@ -56,9 +56,9 @@ export default class List extends Component {
                     )}
                 </Droppable>
 
-                {this.state.newCardListId === l.id && <NewCard title={this.state.newCardTitle} add={(title) => this.handleAddCard(l.id, title)} abort={this.abortNewCard} />}
+                {this.state.newCard && <NewCard title={this.state.newCardTitle} add={(title) => this.handleAddCard(l.id, title)} abort={this.abortNewCard} />}
 
-                {this.state.newCardListId !== l.id && <div className="add-card" onClick={() => this.showNewCard(l.id)}>+ Add new card</div>}
+                {!this.state.newCard && <div className="add-card" onClick={this.showNewCard}>+ Add new card</div>}
             </div>
         );
     }
