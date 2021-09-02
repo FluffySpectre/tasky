@@ -19,10 +19,12 @@
 
 .dialog-container {
   width: 35rem;
+  min-height: 15rem;
   background-color: #f4f5f7;
   border-radius: 0.25rem;
   z-index: 1001;
   position: relative;
+  padding: 0.5rem;
 }
 
 .dialog-close {
@@ -37,28 +39,26 @@
 .dialog-title .edit-label {
   font-size: 1.25rem;
   font-weight: normal;
+  padding: 0;
+  margin: 0;
 }
 
 .dialog-title input {
   font-size: 1.25rem;
   font-weight: normal;
+  margin: 0;
 }
 
-.dialog-description-input {
-  width: calc(100% - 2rem);
-  margin: 0.5rem;
-  min-height: 10rem;
-}
-
-.edit-save-btn {
-  margin-left: 0.5rem;
-  width: 13rem;
+.dialog-description {
 }
 
 .edit-delete-btn {
   width: 8rem;
   color: red;
   background: transparent;
+  position: absolute;
+  right: 0;
+  bottom: 0.25rem;
 }
 
 .btn-container {
@@ -67,4 +67,7 @@
   align-items: center;
   justify-content: space-between;
   margin-bottom: 0.5rem;
+  position: absolute;
+  bottom: 0;
+  left: 0;
 }

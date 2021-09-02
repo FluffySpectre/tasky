@@ -85,8 +85,14 @@ function editTask(boardId, listId, taskId, title, description) {
     boards[boardId].lists = boards[boardId].lists.map(l => {
         if (l.id === listId) {
             const task = l.cards.find(c => c.id === taskId);
-            task.title = title;
-            task.description = description;
+
+            if (title !== undefined) {
+                task.title = title;
+            }
+
+            if (description !== undefined) {
+                task.description = description;
+            }
         }
         return l;
     });

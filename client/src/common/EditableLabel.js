@@ -36,7 +36,10 @@ class EditableLabel extends React.Component {
     }
 
     handleSubmit = () => {
-        this.props.submit(this.state.text);
+        // submit only, if the text changed
+        if (this.props.text !== this.state.text) {
+            this.props.submit(this.state.text);
+        }
         this.setState({ edit: false });
     }
 
@@ -56,7 +59,7 @@ class EditableLabel extends React.Component {
                     autoFocus
                     type="text" placeholder={this.props.placeholder}
                     value={this.state.text}
-                    onChange={this.handleTextChange} onKeyUp={this.handleKeyUp} onBlur={this.handleCancel} />}
+                    onChange={this.handleTextChange} onKeyUp={this.handleKeyUp}  />}
                 {!this.state.edit && <div className="edit-label" onClick={this.handleEdit}>
                     <span>{this.state.text}</span>
                     </div>

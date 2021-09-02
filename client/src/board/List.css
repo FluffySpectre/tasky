@@ -12,6 +12,12 @@
   margin-bottom: 0.5rem;
 }
 
+.list-title {
+  width: 88%;
+  margin-top: 0.75rem;
+  margin-left: 0.5rem;
+}
+
 .cards {
   padding: 0.5rem;
   padding-top: 0;
