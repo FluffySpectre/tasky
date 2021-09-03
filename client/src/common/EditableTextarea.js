@@ -66,7 +66,8 @@ class EditableTextarea extends React.Component {
                     </div>
                 </div>}
                 {!this.state.edit && <div className="editable-textarea-edit-label" onClick={this.handleEdit}>
-                    <span>{this.state.text}</span>
+                    {this.state.text && this.state.text.length > 0 && <span className="textarea-text">{this.state.text}</span>}
+                    {(!this.state.text || this.state.text.length === 0) && <span className="textarea-text-placeholder">{this.props.placeholder}</span>}
                 </div>
                 }
             </div>

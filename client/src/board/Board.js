@@ -100,11 +100,11 @@ class Board extends React.Component {
     }
 
     handleEditTitle = (title) => {
-        this.editCard(this.state.editCardListId, this.state.editCardId, title);
+        this.editCard(this.state.editCardListId, this.state.editCardId, title, null);
     }
 
     handleEditDescription = (description) => {
-        this.editCard(this.state.editCardListId, this.state.editCardId, undefined, description);
+        this.editCard(this.state.editCardListId, this.state.editCardId, null, description);
     }
 
     handleDelete = () => {
@@ -121,7 +121,7 @@ class Board extends React.Component {
     }
 
     editCard = (listId, cardId, title, description) => {
-        this.props.socket.emit('edit-task', { boardId: this.state.boardId, cardId, title: title || undefined, description: description || undefined, listId });
+        this.props.socket.emit('edit-task', { boardId: this.state.boardId, cardId, title, description, listId });
     }
 
     deleteCard = (listId, cardId) => {

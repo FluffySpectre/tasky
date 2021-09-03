@@ -59,7 +59,7 @@ class EditableLabel extends React.Component {
                     autoFocus
                     type="text" placeholder={this.props.placeholder}
                     value={this.state.text}
-                    onChange={this.handleTextChange} onKeyUp={this.handleKeyUp}  />}
+                    onChange={this.handleTextChange} onKeyUp={this.handleKeyUp} onBlur={this.handleSubmit} />}
                 {!this.state.edit && <div className="edit-label" onClick={this.handleEdit}>
                     <span>{this.state.text}</span>
                     </div>

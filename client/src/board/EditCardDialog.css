@@ -18,8 +18,8 @@
 }
 
 .dialog-container {
-  width: 35rem;
-  min-height: 15rem;
+  width: 40rem;
+  height: 22rem;
   background-color: #f4f5f7;
   border-radius: 0.25rem;
   z-index: 1001;
@@ -34,6 +34,11 @@
   right: 0.5rem;
   top: 0.5rem;
   cursor: pointer;
+}
+
+.dialog-title {
+  margin-bottom: 1rem;
+  width: calc(100% - 1rem);
 }
 
 .dialog-title .edit-label {

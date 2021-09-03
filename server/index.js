@@ -86,11 +86,11 @@ function editTask(boardId, listId, taskId, title, description) {
         if (l.id === listId) {
             const task = l.cards.find(c => c.id === taskId);
 
-            if (title !== undefined) {
+            if (title !== null) {
                 task.title = title;
             }
 
-            if (description !== undefined) {
+            if (description !== null) {
                 task.description = description;
             }
         }
