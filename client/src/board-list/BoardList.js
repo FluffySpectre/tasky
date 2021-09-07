@@ -16,12 +16,18 @@ class BoardList extends React.Component {
 
     componentDidMount() {
         // subscribe for board list updates and do an initial request
+        this.props.socket.on('connect', this.socketConnect);
         this.props.socket.on('board-list', this.socketOnBoardList);
         this.props.socket.emit('board-list');
     }
 
     componentWillUnmount() {
+        this.props.socket.off('connect', this.socketConnect);
         this.props.socket.off('board-list', this.socketOnBoardList);
+    }
+
+    socketConnect = () => {
+        this.props.socket.emit('board-list');
     }
 
     socketOnBoardList = (data) => {

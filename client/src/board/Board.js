@@ -31,7 +31,8 @@ class Board extends React.Component {
         }
         );
 
-        // subscribe for board updates
+        // subscribe for connect and board updates
+        this.props.socket.on('connect', this.socketConnect);
         this.props.socket.on('board-update', this.socketBoardUpdate);
         // request the selected board or create a new one
         this.props.socket.emit('board', { id: this.props.id });
@@ -56,7 +57,13 @@ class Board extends React.Component {
 
     componentWillUnmount() {
         this.props.socket.emit('leave-board');
+        this.props.socket.off('connect', this.socketConnect);
         this.props.socket.off('board-update', this.socketBoardUpdate);
+    }
+
+    socketConnect = () => {
+        // request the selected board
+        this.props.socket.emit('board', { id: this.props.id });
     }
 
     socketBoardUpdate = (data) => {
